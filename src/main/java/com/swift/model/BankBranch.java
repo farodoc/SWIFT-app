@@ -39,4 +39,5 @@ public class BankBranch {
 
     @Column(name = "time_zone")
     private String timeZone;
+
 }

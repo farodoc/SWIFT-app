@@ -46,4 +46,5 @@ public class BankHq {
             orphanRemoval = true
     )
     private List<BankBranch> bankBranches = new ArrayList<>();
+
 }

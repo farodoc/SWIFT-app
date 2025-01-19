@@ -1,12 +1,11 @@
 package com.swift.controller;
 
 import com.swift.dto.CountrySwiftCodesResponse;
+import com.swift.dto.SwiftCodeEntryRequest;
 import com.swift.service.BankService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -28,7 +27,19 @@ public class BankController {
 
     @GetMapping("/country/{countryISO2}")
     public ResponseEntity<CountrySwiftCodesResponse> getBanksByCountry(@PathVariable String countryISO2) {
-        return ResponseEntity.ok(bankService.getBanksByCountry(countryISO2));
+        return ResponseEntity.ok(bankService.getBanksByCountry(countryISO2.toUpperCase()));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createBank(@RequestBody @Valid SwiftCodeEntryRequest swiftCodeEntryRequest) {
+        bankService.createBank(swiftCodeEntryRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{swiftCode}")
+    public ResponseEntity<?> deleteBank(@PathVariable String swiftCode) {
+        bankService.deleteBank(swiftCode);
+        return ResponseEntity.ok("Entry deleted");
     }
 
 }

@@ -3,6 +3,7 @@ package com.swift.util;
 import com.swift.dto.BankBranchDto;
 import com.swift.dto.HqsBranchBank;
 import com.swift.dto.BankHqDto;
+import com.swift.dto.SwiftCodeEntryRequest;
 import com.swift.model.BankBranch;
 import com.swift.model.BankHq;
 import org.springframework.stereotype.Component;
@@ -68,6 +69,26 @@ public class BankMapper {
                 .countryISO2(bankHq.getCountryISO2())
                 .isHeadquarter(true)
                 .swiftCode(bankHq.getSwiftCode())
+                .build();
+    }
+
+    public BankHq convertToBankHq(SwiftCodeEntryRequest swiftCodeEntryRequest) {
+        return BankHq.builder()
+                .swiftCode(swiftCodeEntryRequest.getSwiftCode())
+                .bankName(swiftCodeEntryRequest.getBankName())
+                .address(swiftCodeEntryRequest.getAddress())
+                .countryISO2(swiftCodeEntryRequest.getCountryISO2())
+                .countryName(swiftCodeEntryRequest.getCountryName())
+                .build();
+    }
+
+    public BankBranch convertToBankBranch(SwiftCodeEntryRequest swiftCodeEntryRequest) {
+        return BankBranch.builder()
+                .swiftCode(swiftCodeEntryRequest.getSwiftCode())
+                .bankName(swiftCodeEntryRequest.getBankName())
+                .address(swiftCodeEntryRequest.getAddress())
+                .countryISO2(swiftCodeEntryRequest.getCountryISO2())
+                .countryName(swiftCodeEntryRequest.getCountryName())
                 .build();
     }
 

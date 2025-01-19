@@ -14,4 +14,8 @@ public interface BankBranchRepository extends JpaRepository<BankBranch, String> 
 
     List<BankBranch> findByCountryISO2(String countryISO2);
 
+    List<BankBranch> findBySwiftCodeStartingWith(String swiftCodePrefix);
+
+    void deleteBySwiftCode(String swiftCode);
+
 }

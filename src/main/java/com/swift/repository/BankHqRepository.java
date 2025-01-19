@@ -15,4 +15,6 @@ public interface BankHqRepository extends JpaRepository<BankHq, String> {
 
     List<BankHq> findByCountryISO2(String countryISO2);
 
+    void deleteBySwiftCode(String swiftCode);
+
 }
