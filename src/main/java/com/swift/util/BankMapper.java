@@ -1,8 +1,8 @@
 package com.swift.util;
 
 import com.swift.dto.BankBranchDto;
-import com.swift.dto.HqsBranchBank;
 import com.swift.dto.BankHqDto;
+import com.swift.dto.HqsBranchBank;
 import com.swift.dto.SwiftCodeEntryRequest;
 import com.swift.model.BankBranch;
 import com.swift.model.BankHq;

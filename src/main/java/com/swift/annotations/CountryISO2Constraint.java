@@ -7,12 +7,14 @@ import java.lang.annotation.*;
 
 @Documented
 @Constraint(validatedBy = CountryISO2Validator.class)
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CountryISO2Constraint {
 
     String message() default "Invalid ISO2 code";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 
 }

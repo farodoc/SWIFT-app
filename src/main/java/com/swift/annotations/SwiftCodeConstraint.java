@@ -7,12 +7,14 @@ import java.lang.annotation.*;
 
 @Documented
 @Constraint(validatedBy = SwiftCodeValidator.class)
-@Target({ ElementType.FIELD })
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SwiftCodeConstraint {
 
     String message() default "Invalid SWIFT code";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 
 }
