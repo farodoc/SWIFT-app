@@ -1,6 +1,8 @@
 package com.swift.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.swift.annotations.*;
+import com.swift.util.SwiftCodeEntryRequestDeserializer;
 import lombok.*;
 
 @Builder
@@ -8,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonDeserialize(using = SwiftCodeEntryRequestDeserializer.class)
 public class SwiftCodeEntryRequest {
 
     @AddressConstraint

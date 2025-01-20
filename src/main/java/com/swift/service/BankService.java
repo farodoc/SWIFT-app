@@ -22,6 +22,7 @@ public class BankService {
     private final BankBranchRepository bankBranchRepository;
     private final BankMapper bankMapper;
     private final static String BANK_HQ_SUFFIX = "XXX";
+    private final static int BANK_SWIFT_CODE_PREFIX_LENGTH = 8;
 
     public BankService(BankHqRepository bankHqRepository, BankBranchRepository bankBranchRepository, BankMapper bankMapper) {
         this.bankHqRepository = bankHqRepository;
@@ -66,13 +67,13 @@ public class BankService {
                 : bankBranchRepository.findBySwiftCode(swiftCode).isPresent();
 
         if (exists) {
-            throw new IllegalArgumentException("Bank with the given swiftCode already exists");
+            throw new IllegalArgumentException("Bank with the given SWIFT code already exists");
         }
 
         if (swiftCodeEntryRequest.getIsHeadquarter()) {
             BankHq bankHq = bankMapper.convertToBankHq(swiftCodeEntryRequest);
 
-            List<BankBranch> bankBranches = bankBranchRepository.findBySwiftCodeStartingWith(bankHq.getSwiftCode().substring(0, 8));
+            List<BankBranch> bankBranches = bankBranchRepository.findBySwiftCodeStartingWith(bankHq.getSwiftCode().substring(0, BANK_SWIFT_CODE_PREFIX_LENGTH));
 
             bankBranches.forEach(bankBranch -> bankBranch.setBankHq(bankHq));
             bankHq.setBankBranches(bankBranches);
@@ -81,7 +82,7 @@ public class BankService {
         } else {
             BankBranch bankBranch = bankMapper.convertToBankBranch(swiftCodeEntryRequest);
 
-            Optional<BankHq> bankHq = bankHqRepository.findBySwiftCode(bankBranch.getSwiftCode().substring(0, 8) + BANK_HQ_SUFFIX);
+            Optional<BankHq> bankHq = bankHqRepository.findBySwiftCode(bankBranch.getSwiftCode().substring(0, BANK_SWIFT_CODE_PREFIX_LENGTH) + BANK_HQ_SUFFIX);
 
             bankBranch.setBankHq(bankHq.orElse(null));
 

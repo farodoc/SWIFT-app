@@ -46,12 +46,12 @@ public class DataLoader {
                 continue;
             }
 
-            String swiftCode = row.getCell(1).getStringCellValue();
+            String swiftCode = row.getCell(1).getStringCellValue().toUpperCase().trim();
             if (swiftCode.endsWith(BANK_HQ_SUFFIX)) {
-                String bankName = row.getCell(3).getStringCellValue();
-                String address = row.getCell(4).getStringCellValue();
-                String countryISO2 = row.getCell(0).getStringCellValue();
-                String countryName = row.getCell(6).getStringCellValue();
+                String bankName = row.getCell(3).getStringCellValue().toUpperCase().trim();
+                String address = row.getCell(4).getStringCellValue().toUpperCase().trim();
+                String countryISO2 = row.getCell(0).getStringCellValue().toUpperCase().trim();
+                String countryName = row.getCell(6).getStringCellValue().toUpperCase().trim();
 
                 BankHq bankHq = BankHq.builder()
                         .swiftCode(swiftCode)
@@ -72,14 +72,14 @@ public class DataLoader {
                 continue;
             }
 
-            String swiftCode = row.getCell(1).getStringCellValue();
+            String swiftCode = row.getCell(1).getStringCellValue().toUpperCase().trim();
             if (!swiftCode.endsWith(BANK_HQ_SUFFIX)) {
-                String bankName = row.getCell(3).getStringCellValue();
-                String address = row.getCell(4).getStringCellValue();
-                String countryISO2 = row.getCell(0).getStringCellValue();
-                String countryName = row.getCell(6).getStringCellValue();
+                String bankName = row.getCell(3).getStringCellValue().toUpperCase().trim();
+                String address = row.getCell(4).getStringCellValue().toUpperCase().trim();
+                String countryISO2 = row.getCell(0).getStringCellValue().toUpperCase().trim();
+                String countryName = row.getCell(6).getStringCellValue().toUpperCase().trim();
 
-                String hqSwiftCode = swiftCode.substring(0, BANK_SWIFT_CODE_PREFIX_LENGTH) + BANK_HQ_SUFFIX;
+                String hqSwiftCode = (swiftCode.substring(0, BANK_SWIFT_CODE_PREFIX_LENGTH) + BANK_HQ_SUFFIX).toUpperCase().trim();
                 BankHq bankHq = bankHqRepository.findById(hqSwiftCode).orElse(null);
 
                 BankBranch bankBranch = BankBranch.builder()
