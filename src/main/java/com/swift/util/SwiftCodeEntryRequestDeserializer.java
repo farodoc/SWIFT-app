@@ -18,7 +18,7 @@ public class SwiftCodeEntryRequestDeserializer extends JsonDeserializer<SwiftCod
         String bankName = getTrimmedUpperCaseValue(node, "bankName");
         String countryISO2 = getTrimmedUpperCaseValue(node, "countryISO2");
         String countryName = getTrimmedUpperCaseValue(node, "countryName");
-        Boolean isHeadquarter = node.get("isHeadquarter").asBoolean();
+        Boolean isHeadquarter = node.get("isHeadquarter") != null && node.get("isHeadquarter").asBoolean();
         String swiftCode = getTrimmedUpperCaseValue(node, "swiftCode");
 
         return SwiftCodeEntryRequest.builder()

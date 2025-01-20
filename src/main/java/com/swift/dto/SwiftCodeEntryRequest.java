@@ -3,7 +3,7 @@ package com.swift.dto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.swift.annotations.*;
 import com.swift.util.SwiftCodeEntryRequestDeserializer;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.GroupSequence;
 import lombok.*;
 
 @Builder
@@ -11,26 +11,26 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@SwiftCodeWithIsHeadquarterConstraint
+@GroupSequence({SwiftCodeEntryRequest.class, ValidationGroups.FieldChecks.class, ValidationGroups.ClassChecks.class})
+@SwiftCodeWithIsHeadquarterConstraint(groups = ValidationGroups.ClassChecks.class)
 @JsonDeserialize(using = SwiftCodeEntryRequestDeserializer.class)
 public class SwiftCodeEntryRequest {
 
-    @AddressConstraint
+    @AddressConstraint(groups = ValidationGroups.FieldChecks.class)
     private String address;
 
-    @BankNameConstraint
+    @BankNameConstraint(groups = ValidationGroups.FieldChecks.class)
     private String bankName;
 
-    @CountryISO2Constraint
+    @CountryISO2Constraint(groups = ValidationGroups.FieldChecks.class)
     private String countryISO2;
 
-    @CountryNameConstraint
+    @CountryNameConstraint(groups = ValidationGroups.FieldChecks.class)
     private String countryName;
 
-    @NotNull
     private Boolean isHeadquarter;
 
-    @SwiftCodeConstraint
+    @SwiftCodeConstraint(groups = ValidationGroups.FieldChecks.class)
     private String swiftCode;
 
 }

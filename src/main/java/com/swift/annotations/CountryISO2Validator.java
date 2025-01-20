@@ -13,6 +13,9 @@ public class CountryISO2Validator implements ConstraintValidator<CountryISO2Cons
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         context.buildConstraintViolationWithTemplate("Invalid ISO2 code: " + value).addConstraintViolation().disableDefaultConstraintViolation();
+        if (value == null) {
+            return false;
+        }
         return value.matches("^[A-Z]{2}$");
     }
 

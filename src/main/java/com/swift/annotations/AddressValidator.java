@@ -13,6 +13,9 @@ public class AddressValidator implements ConstraintValidator<AddressConstraint, 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         context.buildConstraintViolationWithTemplate("Invalid address: " + value).addConstraintViolation().disableDefaultConstraintViolation();
+        if (value == null) {
+            return false;
+        }
         return value.matches("^[A-Za-z0-9 ,.]+$");
     }
 }

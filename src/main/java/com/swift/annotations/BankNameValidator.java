@@ -13,6 +13,9 @@ public class BankNameValidator implements ConstraintValidator<BankNameConstraint
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         context.buildConstraintViolationWithTemplate("Invalid bank name: " + value).addConstraintViolation().disableDefaultConstraintViolation();
+        if (value == null) {
+            return false;
+        }
         return value.matches("^[A-Za-z0-9 ]+$");
     }
 

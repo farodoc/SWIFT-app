@@ -13,6 +13,9 @@ public class SwiftCodeValidator implements ConstraintValidator<SwiftCodeConstrai
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         context.buildConstraintViolationWithTemplate("Invalid SWIFT code: " + value).addConstraintViolation().disableDefaultConstraintViolation();
+        if (value == null) {
+            return false;
+        }
         return value.matches("^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$");
     }
 

@@ -13,6 +13,9 @@ public class CountryNameValidator implements ConstraintValidator<CountryNameCons
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         context.buildConstraintViolationWithTemplate("Invalid country name: " + value).addConstraintViolation().disableDefaultConstraintViolation();
+        if (value == null) {
+            return false;
+        }
         return value.matches("^[A-Za-z ]+$");
     }
 
