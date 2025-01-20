@@ -16,12 +16,6 @@ public class BankBranch {
     @Column(name = "swift_code")
     private String swiftCode;
 
-    @Column(name = "code_type")
-    private String codeType;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private BankHq bankHq;
-
     @Column(name = "bank_name")
     private String bankName;
 
@@ -34,10 +28,7 @@ public class BankBranch {
     @Column(name = "country_name")
     private String countryName;
 
-    @Column(name = "town_name")
-    private String townName;
-
-    @Column(name = "time_zone")
-    private String timeZone;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private BankHq bankHq;
 
 }

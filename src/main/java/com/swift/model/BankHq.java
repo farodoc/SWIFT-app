@@ -19,9 +19,6 @@ public class BankHq {
     @Column(name = "swift_code")
     private String swiftCode;
 
-    @Column(name = "code_type")
-    private String codeType;
-
     @Column(name = "bank_name")
     private String bankName;
 
@@ -33,12 +30,6 @@ public class BankHq {
 
     @Column(name = "country_name")
     private String countryName;
-
-    @Column(name = "town_name")
-    private String townName;
-
-    @Column(name = "time_zone")
-    private String timeZone;
 
     @OneToMany(
             mappedBy = "bankHq",

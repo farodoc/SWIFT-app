@@ -18,6 +18,7 @@ public class DataLoader {
     private final BankHqRepository bankHqRepository;
     private final BankBranchRepository bankBranchRepository;
     private final static String BANK_HQ_SUFFIX = "XXX";
+    private final static int BANK_SWIFT_CODE_PREFIX_LENGTH = 8;
 
     public DataLoader(BankHqRepository bankHqRepository, BankBranchRepository bankBranchRepository) {
         this.bankHqRepository = bankHqRepository;
@@ -47,23 +48,17 @@ public class DataLoader {
 
             String swiftCode = row.getCell(1).getStringCellValue();
             if (swiftCode.endsWith(BANK_HQ_SUFFIX)) {
-                String codeType = row.getCell(2).getStringCellValue();
                 String bankName = row.getCell(3).getStringCellValue();
                 String address = row.getCell(4).getStringCellValue();
-                String townName = row.getCell(5).getStringCellValue();
-                String countryName = row.getCell(6).getStringCellValue();
                 String countryISO2 = row.getCell(0).getStringCellValue();
-                String timeZone = row.getCell(7).getStringCellValue();
+                String countryName = row.getCell(6).getStringCellValue();
 
                 BankHq bankHq = BankHq.builder()
                         .swiftCode(swiftCode)
-                        .codeType(codeType)
                         .bankName(bankName)
                         .address(address)
-                        .townName(townName)
-                        .countryName(countryName)
                         .countryISO2(countryISO2)
-                        .timeZone(timeZone)
+                        .countryName(countryName)
                         .build();
 
                 bankHqRepository.save(bankHq);
@@ -79,26 +74,20 @@ public class DataLoader {
 
             String swiftCode = row.getCell(1).getStringCellValue();
             if (!swiftCode.endsWith(BANK_HQ_SUFFIX)) {
-                String codeType = row.getCell(2).getStringCellValue();
                 String bankName = row.getCell(3).getStringCellValue();
                 String address = row.getCell(4).getStringCellValue();
-                String townName = row.getCell(5).getStringCellValue();
-                String countryName = row.getCell(6).getStringCellValue();
                 String countryISO2 = row.getCell(0).getStringCellValue();
-                String timeZone = row.getCell(7).getStringCellValue();
+                String countryName = row.getCell(6).getStringCellValue();
 
-                String hqSwiftCode = swiftCode.substring(0, 8) + BANK_HQ_SUFFIX;
+                String hqSwiftCode = swiftCode.substring(0, BANK_SWIFT_CODE_PREFIX_LENGTH) + BANK_HQ_SUFFIX;
                 BankHq bankHq = bankHqRepository.findById(hqSwiftCode).orElse(null);
 
                 BankBranch bankBranch = BankBranch.builder()
                         .swiftCode(swiftCode)
-                        .codeType(codeType)
                         .bankName(bankName)
                         .address(address)
-                        .townName(townName)
-                        .countryName(countryName)
                         .countryISO2(countryISO2)
-                        .timeZone(timeZone)
+                        .countryName(countryName)
                         .bankHq(bankHq)
                         .build();
 
