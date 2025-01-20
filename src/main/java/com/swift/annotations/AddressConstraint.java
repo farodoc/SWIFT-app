@@ -6,12 +6,12 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = CountryISO2Validator.class)
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Constraint(validatedBy = AddressValidator.class)
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CountryISO2Constraint {
+public @interface AddressConstraint {
 
-    String message() default "Invalid ISO2 code";
+    String message() default "Invalid address";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

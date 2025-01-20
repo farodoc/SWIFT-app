@@ -69,7 +69,7 @@ public class BankService {
             throw new IllegalArgumentException("Bank with the given swiftCode already exists");
         }
 
-        if (swiftCodeEntryRequest.isHeadquarter()) {
+        if (swiftCodeEntryRequest.getIsHeadquarter()) {
             BankHq bankHq = bankMapper.convertToBankHq(swiftCodeEntryRequest);
 
             List<BankBranch> bankBranches = bankBranchRepository.findBySwiftCodeStartingWith(bankHq.getSwiftCode().substring(0, 8));

@@ -12,7 +12,7 @@ public class HqsBranchBank {
     private String address;
     private String bankName;
     private String countryISO2;
-    private boolean isHeadquarter;
+    private Boolean isHeadquarter;
     private String swiftCode;
 
 }

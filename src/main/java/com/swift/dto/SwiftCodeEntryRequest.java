@@ -1,8 +1,6 @@
 package com.swift.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.swift.annotations.CountryISO2Constraint;
-import com.swift.annotations.SwiftCodeConstraint;
+import com.swift.annotations.*;
 import lombok.*;
 
 @Builder
@@ -12,15 +10,19 @@ import lombok.*;
 @ToString
 public class SwiftCodeEntryRequest {
 
+    @AddressConstraint
     private String address;
+
+    @BankNameConstraint
     private String bankName;
 
     @CountryISO2Constraint
     private String countryISO2;
 
+    @CountryNameConstraint
     private String countryName;
-    @JsonProperty("isHeadquarter")
-    private boolean headquarter;
+
+    private Boolean isHeadquarter;
 
     @SwiftCodeConstraint
     private String swiftCode;

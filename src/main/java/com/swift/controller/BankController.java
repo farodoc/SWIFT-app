@@ -1,5 +1,6 @@
 package com.swift.controller;
 
+import com.swift.annotations.CountryISO2Constraint;
 import com.swift.dto.CountrySwiftCodesResponse;
 import com.swift.dto.SwiftCodeEntryRequest;
 import com.swift.service.BankService;
@@ -26,14 +27,14 @@ public class BankController {
     }
 
     @GetMapping("/country/{countryISO2}")
-    public ResponseEntity<CountrySwiftCodesResponse> getBanksByCountry(@PathVariable String countryISO2) {
+    public ResponseEntity<CountrySwiftCodesResponse> getBanksByCountry(@PathVariable @Valid @CountryISO2Constraint String countryISO2) {
         return ResponseEntity.ok(bankService.getBanksByCountry(countryISO2.toUpperCase()));
     }
 
     @PostMapping
     public ResponseEntity<?> createBank(@RequestBody @Valid SwiftCodeEntryRequest swiftCodeEntryRequest) {
         bankService.createBank(swiftCodeEntryRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Entry created");
     }
 
     @DeleteMapping("/{swiftCode}")

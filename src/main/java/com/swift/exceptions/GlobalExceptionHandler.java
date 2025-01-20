@@ -35,4 +35,13 @@ public class GlobalExceptionHandler {
                 );
     }
 
+    @ExceptionHandler(Exception.class)
+    ProblemDetail handleException(Exception e) {
+        return ProblemDetail
+                .forStatusAndDetail(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        e.getMessage()
+                );
+    }
+
 }
