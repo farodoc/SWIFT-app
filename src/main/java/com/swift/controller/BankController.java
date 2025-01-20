@@ -32,7 +32,8 @@ public class BankController {
             @CountryISO2Constraint
             String countryISO2
     ) {
-        return ResponseEntity.ok(bankService.getBanksByCountry(countryISO2));
+        CountrySwiftCodesResponse response = bankService.getBanksByCountry(countryISO2);
+        return !response.getSwiftCodes().isEmpty() ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
