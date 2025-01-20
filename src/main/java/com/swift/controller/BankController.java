@@ -27,8 +27,12 @@ public class BankController {
     }
 
     @GetMapping("/country/{countryISO2}")
-    public ResponseEntity<CountrySwiftCodesResponse> getBanksByCountry(@PathVariable @Valid @CountryISO2Constraint String countryISO2) {
-        return ResponseEntity.ok(bankService.getBanksByCountry(countryISO2.toUpperCase()));
+    public ResponseEntity<CountrySwiftCodesResponse> getBanksByCountry(
+            @PathVariable
+            @CountryISO2Constraint
+            String countryISO2
+    ) {
+        return ResponseEntity.ok(bankService.getBanksByCountry(countryISO2));
     }
 
     @PostMapping

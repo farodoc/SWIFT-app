@@ -14,12 +14,12 @@ public class SwiftCodeEntryRequestDeserializer extends JsonDeserializer<SwiftCod
     public SwiftCodeEntryRequest deserialize(JsonParser p, DeserializationContext context) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
 
-        String address = getUpperCaseValue(node, "address");
-        String bankName = getUpperCaseValue(node, "bankName");
-        String countryISO2 = getUpperCaseValue(node, "countryISO2");
-        String countryName = getUpperCaseValue(node, "countryName");
+        String address = getTrimmedUpperCaseValue(node, "address");
+        String bankName = getTrimmedUpperCaseValue(node, "bankName");
+        String countryISO2 = getTrimmedUpperCaseValue(node, "countryISO2");
+        String countryName = getTrimmedUpperCaseValue(node, "countryName");
         Boolean isHeadquarter = node.get("isHeadquarter").asBoolean();
-        String swiftCode = getUpperCaseValue(node, "swiftCode");
+        String swiftCode = getTrimmedUpperCaseValue(node, "swiftCode");
 
         return SwiftCodeEntryRequest.builder()
                 .address(address)
@@ -31,7 +31,7 @@ public class SwiftCodeEntryRequestDeserializer extends JsonDeserializer<SwiftCod
                 .build();
     }
 
-    private String getUpperCaseValue(JsonNode node, String fieldName) {
+    private String getTrimmedUpperCaseValue(JsonNode node, String fieldName) {
         JsonNode fieldNode = node.get(fieldName);
         return fieldNode != null ? fieldNode.asText().toUpperCase().trim() : null;
     }

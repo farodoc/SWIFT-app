@@ -8,6 +8,7 @@ import com.swift.model.BankHq;
 import com.swift.repository.BankBranchRepository;
 import com.swift.repository.BankHqRepository;
 import com.swift.util.BankMapper;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,15 @@ public class BankService {
     private final BankHqRepository bankHqRepository;
     private final BankBranchRepository bankBranchRepository;
     private final BankMapper bankMapper;
+    private final EntityManager entityManager;
     private final static String BANK_HQ_SUFFIX = "XXX";
     private final static int BANK_SWIFT_CODE_PREFIX_LENGTH = 8;
 
-    public BankService(BankHqRepository bankHqRepository, BankBranchRepository bankBranchRepository, BankMapper bankMapper) {
+    public BankService(BankHqRepository bankHqRepository, BankBranchRepository bankBranchRepository, BankMapper bankMapper, EntityManager entityManager) {
         this.bankHqRepository = bankHqRepository;
         this.bankBranchRepository = bankBranchRepository;
         this.bankMapper = bankMapper;
+        this.entityManager = entityManager;
     }
 
     public Optional<?> getBank(String swiftCode) {
@@ -60,6 +63,7 @@ public class BankService {
                 .build();
     }
 
+    @Transactional
     public void createBank(SwiftCodeEntryRequest swiftCodeEntryRequest) {
         String swiftCode = swiftCodeEntryRequest.getSwiftCode();
         boolean exists = swiftCode.endsWith(BANK_HQ_SUFFIX)
@@ -85,8 +89,12 @@ public class BankService {
             Optional<BankHq> bankHq = bankHqRepository.findBySwiftCode(bankBranch.getSwiftCode().substring(0, BANK_SWIFT_CODE_PREFIX_LENGTH) + BANK_HQ_SUFFIX);
 
             bankBranch.setBankHq(bankHq.orElse(null));
+            bankHq.ifPresent(hq -> hq.getBankBranches().add(bankBranch));
 
-            System.out.println(bankBranchRepository.save(bankMapper.convertToBankBranch(swiftCodeEntryRequest)));
+            // TODO: This is a workaround to avoid a detached entity exception
+            bankBranchRepository.findBySwiftCode(bankBranch.getSwiftCode()).ifPresent(entityManager::detach);
+
+            bankBranchRepository.save(bankBranch);
         }
     }
 

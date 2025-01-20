@@ -1,6 +1,5 @@
 package com.swift.repository;
 
-import com.swift.model.BankBranch;
 import com.swift.model.BankHq;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
