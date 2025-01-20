@@ -3,6 +3,7 @@ package com.swift.dto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.swift.annotations.*;
 import com.swift.util.SwiftCodeEntryRequestDeserializer;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Builder
@@ -10,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@SwiftCodeWithIsHeadquarterConstraint
 @JsonDeserialize(using = SwiftCodeEntryRequestDeserializer.class)
 public class SwiftCodeEntryRequest {
 
@@ -25,6 +27,7 @@ public class SwiftCodeEntryRequest {
     @CountryNameConstraint
     private String countryName;
 
+    @NotNull
     private Boolean isHeadquarter;
 
     @SwiftCodeConstraint
