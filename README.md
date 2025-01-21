@@ -26,14 +26,7 @@ Branch codes are associated with a headquarters if their first 8 characters matc
       "countryISO2": "string", 
       "isHeadquarter": "bool", 
       "swiftCode": "string" 
-    }, 
-    { 
-      "address": "string", 
-      "bankName": "string", 
-      "countryISO2": "string", 
-      "isHeadquarter": "bool", 
-      "swiftCode": "string" 
-    }, ...
+    }
   ] 
 }
 ```
@@ -64,14 +57,7 @@ Branch codes are associated with a headquarters if their first 8 characters matc
       "countryISO2": "string",
       "isHeadquarter": "bool",
       "swiftCode": "string"
-    },
-    { 
-      "address": "string", 
-      "bankName": "string", 
-      "countryISO2": "string", 
-      "isHeadquarter": "bool", 
-      "swiftCode": "string"
-    }, ... 
+    }
   ]
 }
 ```

@@ -91,7 +91,6 @@ public class BankService {
             bankBranch.setBankHq(bankHq.orElse(null));
             bankHq.ifPresent(hq -> hq.getBankBranches().add(bankBranch));
 
-            // TODO: This is a workaround to avoid a detached entity exception
             bankBranchRepository.findBySwiftCode(bankBranch.getSwiftCode()).ifPresent(entityManager::detach);
 
             bankBranchRepository.save(bankBranch);

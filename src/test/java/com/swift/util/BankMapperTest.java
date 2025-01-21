@@ -38,6 +38,15 @@ public class BankMapperTest {
     }
 
     @Test
+    void testConvertBranchToDto_EmptyBankBranch() {
+        // When
+        Optional<BankBranchDto> result = bankMapper.convertBranchToDto(Optional.empty());
+
+        // Then
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
     void testConvertHqToDto() {
         // Given
         BankHq bankHq = TestConst.getBankHqs().getFirst();
@@ -59,6 +68,15 @@ public class BankMapperTest {
         assertEquals(2, dto.getBranches().size());
         assertEquals(bankBranchDto1, dto.getBranches().getFirst());
         assertEquals(bankBranchDto2, dto.getBranches().get(1));
+    }
+
+    @Test
+    void testConvertHqToDto_EmptyBankHq() {
+        // When
+        Optional<BankHqDto> result = bankMapper.convertHqToDto(Optional.empty());
+
+        // Then
+        assertTrue(result.isEmpty());
     }
 
     @Test
