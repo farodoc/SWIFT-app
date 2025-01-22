@@ -1,19 +1,18 @@
 package com.swift.service;
 
 import com.swift.TestConst;
-import com.swift.dto.BankBranchDto;
-import com.swift.dto.BankHqDto;
-import com.swift.dto.CountrySwiftCodesResponse;
-import com.swift.dto.HqsBranchBank;
+import com.swift.dto.*;
 import com.swift.model.BankBranch;
 import com.swift.model.BankHq;
 import com.swift.repository.BankBranchRepository;
 import com.swift.repository.BankHqRepository;
 import com.swift.util.BankMapper;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -21,6 +20,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -40,6 +40,25 @@ public class BankServiceTest {
 
     @InjectMocks
     private BankService bankService;
+
+    @Autowired
+    BankHqRepository integrationBankHqRepository;
+    @Autowired
+    BankBranchRepository integrationBankBranchRepository;
+    @Autowired
+    private BankService integrationBankService;
+    @Autowired
+    private BankMapper integrationBankMapper;
+
+    @Autowired
+    private EntityManager integrationEntityManager;
+
+    @BeforeEach
+    public void setup() {
+        integrationBankService = new BankService(integrationBankHqRepository, integrationBankBranchRepository, integrationBankMapper, integrationEntityManager);
+        integrationBankBranchRepository.saveAll(TestConst.getBankBranches());
+        integrationBankHqRepository.saveAll(TestConst.getBankHqs());
+    }
 
     @Test
     public void testGetBank_headquarterSwiftCode() {
@@ -80,6 +99,20 @@ public class BankServiceTest {
     }
 
     @Test
+    public void testGetBank_branchSwiftCode_Integration() {
+        // Given
+        String swiftCode = "TESTUSBR001";
+
+        // When
+        Optional<?> result = integrationBankService.getBank(swiftCode);
+
+        // Then
+        assertTrue(result.isPresent());
+        assertInstanceOf(BankBranchDto.class, result.get());
+        assertEquals(swiftCode, ((BankBranchDto) result.get()).getSwiftCode());
+    }
+
+    @Test
     public void testGetBanksByCountry_BanksFound() {
         // Given
         String countryISO2 = "US";
@@ -98,8 +131,24 @@ public class BankServiceTest {
         assertNotNull(result);
         assertEquals(countryISO2, result.getCountryISO2());
         assertNotNull(result.getCountryName());
-        assertEquals(result.getCountryName(), "UNITED STATES");
+        assertEquals("UNITED STATES", result.getCountryName());
         assertFalse(result.getSwiftCodes().isEmpty());
+    }
+
+    @Test
+    public void testGetBanksByCountry_BanksFound_Integration() {
+        // Given
+        String countryISO2 = "US";
+
+        // When
+        CountrySwiftCodesResponse result = integrationBankService.getBanksByCountry(countryISO2);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(countryISO2, result.getCountryISO2());
+        assertNotNull(result.getCountryName());
+        assertEquals("UNITED STATES", result.getCountryName());
+        assertEquals(3, result.getSwiftCodes().size());
     }
 
     @Test
@@ -118,5 +167,139 @@ public class BankServiceTest {
         assertEquals(countryISO2, result.getCountryISO2());
         assertNull(result.getCountryName());
         assertTrue(result.getSwiftCodes().isEmpty());
+    }
+
+    @Test
+    public void testGetBanksByCountry_BanksNotFound_Integration() {
+        // Given
+        String countryISO2 = "KK";
+
+        // When
+        CountrySwiftCodesResponse result = integrationBankService.getBanksByCountry(countryISO2);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(countryISO2, result.getCountryISO2());
+        assertNull(result.getCountryName());
+        assertTrue(result.getSwiftCodes().isEmpty());
+    }
+
+    @Test
+    public void testCreateBank_BankHq_ExpectSuccess() {
+        // Given
+        String swiftCode = "TESTUSHQXXX";
+        BankHq bankHq = TestConst.getBankHqs().getFirst();
+        SwiftCodeEntryRequest swiftCodeEntryRequest = SwiftCodeEntryRequest.builder()
+                .swiftCode(swiftCode)
+                .isHeadquarter(true)
+                .build();
+
+        when(bankHqRepository.findBySwiftCode(swiftCode)).thenReturn(Optional.empty());
+        when(bankMapper.convertToBankHq(swiftCodeEntryRequest)).thenReturn(bankHq);
+        when(bankBranchRepository.findBySwiftCodeStartingWith(anyString())).thenReturn(List.of());
+        when(bankHqRepository.save(bankHq)).thenReturn(bankHq);
+
+        // When
+        bankService.createBank(swiftCodeEntryRequest);
+
+        // Then
+        // No exception thrown
+    }
+
+    @Test
+    public void testCreateBank_BankHq_ExpectSuccess_Integration() {
+        // Given
+        BankHq bankHq = TestConst.getBankHqs().getFirst();
+        SwiftCodeEntryRequest swiftCodeEntryRequest = SwiftCodeEntryRequest.builder()
+                .address(bankHq.getAddress())
+                .bankName(bankHq.getBankName())
+                .countryISO2(bankHq.getCountryISO2())
+                .countryName(bankHq.getCountryName())
+                .isHeadquarter(true)
+                .swiftCode("AAAAAAAAXXX")
+                .build();
+
+        // When
+        integrationBankService.createBank(swiftCodeEntryRequest);
+
+        // Then
+        // No exception thrown
+    }
+
+    @Test
+    public void testCreateBank_BankBranch_ExpectSuccess() {
+        // Given
+        String swiftCode = "TESTUSHQAAA";
+        BankBranch bankBranch = TestConst.getBankBranches().getFirst();
+        SwiftCodeEntryRequest swiftCodeEntryRequest = SwiftCodeEntryRequest.builder()
+                .swiftCode(swiftCode)
+                .isHeadquarter(false)
+                .build();
+
+        when(bankBranchRepository.findBySwiftCode(swiftCode)).thenReturn(Optional.empty());
+        when(bankMapper.convertToBankBranch(swiftCodeEntryRequest)).thenReturn(bankBranch);
+        when(bankHqRepository.findBySwiftCode(anyString())).thenReturn(Optional.empty());
+        when(bankBranchRepository.save(bankBranch)).thenReturn(bankBranch);
+
+        // When
+        bankService.createBank(swiftCodeEntryRequest);
+
+        // Then
+        // No exception thrown
+    }
+
+    @Test
+    public void testCreateBank_BankBranch_ExpectSuccess_Integration() {
+        // Given
+        BankBranch bankBranch = TestConst.getBankBranches().getFirst();
+        SwiftCodeEntryRequest swiftCodeEntryRequest = SwiftCodeEntryRequest.builder()
+                .address(bankBranch.getAddress())
+                .bankName(bankBranch.getBankName())
+                .countryISO2(bankBranch.getCountryISO2())
+                .countryName(bankBranch.getCountryName())
+                .isHeadquarter(false)
+                .swiftCode("BBBBBBBB")
+                .build();
+
+        // When
+        integrationBankService.createBank(swiftCodeEntryRequest);
+
+        // Then
+        // No exception thrown
+    }
+
+    @Test
+    public void testCreateBank_BankBranchWithAlreadyExistingSwiftCode_ExpectIllegalArgumentException() {
+        // Given
+        String swiftCode = "TESTUSBR001";
+        BankBranch bankBranch = TestConst.getBankBranches().getFirst();
+        SwiftCodeEntryRequest swiftCodeEntryRequest = SwiftCodeEntryRequest.builder()
+                .swiftCode(swiftCode)
+                .isHeadquarter(false)
+                .build();
+
+        when(bankBranchRepository.findBySwiftCode(swiftCode)).thenReturn(Optional.of(bankBranch));
+
+        // Then
+        assertThrows(IllegalArgumentException.class, () -> bankService.createBank(swiftCodeEntryRequest));
+    }
+
+    @Test
+    public void testCreateBank_BankBranchWithAlreadyExistingSwiftCode_ExpectIllegalArgumentException_Integration() {
+        // Given
+        String swiftCode = "TESTUSBR001";
+        BankBranch bankBranch = TestConst.getBankBranches().getFirst();
+        SwiftCodeEntryRequest swiftCodeEntryRequest = SwiftCodeEntryRequest.builder()
+                .address(bankBranch.getAddress())
+                .bankName(bankBranch.getBankName())
+                .countryISO2(bankBranch.getCountryISO2())
+                .countryName(bankBranch.getCountryName())
+                .isHeadquarter(false)
+                .swiftCode(swiftCode)
+                .build();
+
+
+        // Then
+        assertThrows(IllegalArgumentException.class, () -> integrationBankService.createBank(swiftCodeEntryRequest));
     }
 }

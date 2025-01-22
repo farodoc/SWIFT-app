@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BankMapperTest {
 
@@ -64,7 +63,7 @@ public class BankMapperTest {
         assertEquals("US", dto.getCountryISO2());
         assertEquals("UNITED STATES", dto.getCountryName());
         assertTrue(dto.getIsHeadquarter());
-        assertEquals("TESTUSHQXXX", dto.getSwiftCode());
+        assertEquals("TESTUSBRXXX", dto.getSwiftCode());
         assertEquals(2, dto.getBranches().size());
         assertEquals(bankBranchDto1, dto.getBranches().getFirst());
         assertEquals(bankBranchDto2, dto.getBranches().get(1));
@@ -108,7 +107,7 @@ public class BankMapperTest {
         assertEquals("Test Bank UK", result.getBankName());
         assertEquals("UK", result.getCountryISO2());
         assertTrue(result.getIsHeadquarter());
-        assertEquals("TESTUKHQXXX", result.getSwiftCode());
+        assertEquals("TESTUS55XXX", result.getSwiftCode());
     }
 
     @Test

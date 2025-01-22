@@ -44,7 +44,7 @@ public class TestConst {
             .bankName("Test Bank US")
             .countryISO2("US")
             .countryName("UNITED STATES")
-            .swiftCode("TESTUSHQXXX")
+            .swiftCode("TESTUSBRXXX")
             .bankBranches(List.of(BANK_BRANCH_1, BANK_BRANCH_2))
             .build();
 
@@ -53,7 +53,7 @@ public class TestConst {
             .bankName("Test Bank UK")
             .countryISO2("UK")
             .countryName("UNITED KINGDOM")
-            .swiftCode("TESTUKHQXXX")
+            .swiftCode("TESTUS55XXX")
             .bankBranches(List.of(BANK_BRANCH_3))
             .build();
 

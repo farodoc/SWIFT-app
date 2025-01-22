@@ -21,7 +21,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 public class BankControllerTest {
@@ -163,7 +164,7 @@ public class BankControllerTest {
                 .andExpect(jsonPath("$.swiftCodes").isArray())
                 .andExpect(jsonPath("$.swiftCodes").isNotEmpty())
                 .andExpect(jsonPath("$.swiftCodes[0].swiftCode").value("TESTUS55"))
-                .andExpect(jsonPath("$.swiftCodes[1].swiftCode").value("TESTUKHQXXX"));
+                .andExpect(jsonPath("$.swiftCodes[1].swiftCode").value("TESTUS55XXX"));
     }
 
     @Test
