@@ -6,7 +6,6 @@ import com.swift.model.BankHq;
 import java.util.List;
 
 public class TestConst {
-
     private final static BankBranch BANK_BRANCH_1 = BankBranch.builder()
             .address("456 Main St")
             .bankName("Test Bank US")
@@ -57,16 +56,25 @@ public class TestConst {
             .bankBranches(List.of(BANK_BRANCH_3))
             .build();
 
+    {
+        BANK_BRANCH_1.setBankHq(BANK_HQ_1);
+        BANK_BRANCH_2.setBankHq(BANK_HQ_1);
+        BANK_BRANCH_3.setBankHq(BANK_HQ_2);
+    }
+
     private final static List<BankBranch> BANK_BRANCHES = List.of(BANK_BRANCH_1, BANK_BRANCH_2, BANK_BRANCH_3, BANK_BRANCH_4);
 
     private final static List<BankHq> BANK_HQS = List.of(BANK_HQ_1, BANK_HQ_2);
 
     public static List<BankBranch> getBankBranches() {
-        return BANK_BRANCHES;
+        return BANK_BRANCHES.stream()
+                .map(bankBranch -> bankBranch.toBuilder().build())
+                .toList();
     }
 
     public static List<BankHq> getBankHqs() {
-        return BANK_HQS;
+        return BANK_HQS.stream()
+                .map(bankHq -> bankHq.toBuilder().build())
+                .toList();
     }
-
 }

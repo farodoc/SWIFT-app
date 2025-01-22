@@ -9,7 +9,6 @@ import com.swift.dto.SwiftCodeEntryRequest;
 import java.io.IOException;
 
 public class SwiftCodeEntryRequestDeserializer extends JsonDeserializer<SwiftCodeEntryRequest> {
-
     @Override
     public SwiftCodeEntryRequest deserialize(JsonParser p, DeserializationContext context) throws IOException {
         JsonNode node = p.getCodec().readTree(p);
@@ -35,5 +34,4 @@ public class SwiftCodeEntryRequestDeserializer extends JsonDeserializer<SwiftCod
         JsonNode fieldNode = node.get(fieldName);
         return fieldNode != null ? fieldNode.asText().toUpperCase().trim() : null;
     }
-
 }

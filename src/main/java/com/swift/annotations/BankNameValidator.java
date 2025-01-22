@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class BankNameValidator implements ConstraintValidator<BankNameConstraint, String> {
+    private final static String BANK_NAME_PATTERN = "^[A-Za-z0-9 ]+$";
 
     @Override
     public void initialize(BankNameConstraint constraintAnnotation) {
@@ -16,7 +17,6 @@ public class BankNameValidator implements ConstraintValidator<BankNameConstraint
         if (value == null) {
             return false;
         }
-        return value.matches("^[A-Za-z0-9 ]+$");
+        return value.matches(BANK_NAME_PATTERN);
     }
-
 }

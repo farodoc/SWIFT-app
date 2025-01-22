@@ -10,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class BankHqDto {
-
     private String address;
     private String bankName;
     private String countryISO2;
@@ -18,5 +17,4 @@ public class BankHqDto {
     private Boolean isHeadquarter;
     private String swiftCode;
     private List<HqsBranchBank> branches;
-
 }

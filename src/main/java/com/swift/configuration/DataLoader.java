@@ -15,13 +15,14 @@ import org.springframework.context.annotation.Configuration;
 import java.io.InputStream;
 import java.util.Objects;
 
+import static com.swift.config.Config.BANK_HQ_SUFFIX;
+import static com.swift.config.Config.BANK_SWIFT_CODE_PREFIX_LENGTH;
+
 @Configuration
 public class DataLoader {
-
     private final BankHqRepository bankHqRepository;
     private final BankBranchRepository bankBranchRepository;
-    private final static String BANK_HQ_SUFFIX = "XXX";
-    private final static int BANK_SWIFT_CODE_PREFIX_LENGTH = 8;
+    private final static String FILE_PATH = "/data.xlsx";
 
     public DataLoader(BankHqRepository bankHqRepository, BankBranchRepository bankBranchRepository) {
         this.bankHqRepository = bankHqRepository;
@@ -31,7 +32,7 @@ public class DataLoader {
     @Bean
     public CommandLineRunner loadData() {
         return args -> {
-            try (InputStream inputStream = Objects.requireNonNull(getClass().getResourceAsStream("/data.xlsx"))) {
+            try (InputStream inputStream = Objects.requireNonNull(getClass().getResourceAsStream(FILE_PATH))) {
                 Workbook workbook = WorkbookFactory.create(inputStream);
                 Sheet sheet = workbook.getSheetAt(0);
 

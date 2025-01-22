@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Component
 public class BankMapper {
-
     public Optional<BankBranchDto> convertBranchToDto(Optional<BankBranch> bankBranch) {
         if (bankBranch.isEmpty()) {
             return Optional.empty();
@@ -91,5 +90,4 @@ public class BankMapper {
                 .countryName(swiftCodeEntryRequest.getCountryName())
                 .build();
     }
-
 }

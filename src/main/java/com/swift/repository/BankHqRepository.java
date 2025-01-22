@@ -9,11 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface BankHqRepository extends JpaRepository<BankHq, String> {
-
     Optional<BankHq> findBySwiftCode(String swiftCode);
 
     List<BankHq> findByCountryISO2(String countryISO2);
 
     void deleteBySwiftCode(String swiftCode);
-
 }

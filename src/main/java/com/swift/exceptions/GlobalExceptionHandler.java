@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Hidden
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(IllegalArgumentException.class)
     ProblemDetail handleIllegalArgumentException(IllegalArgumentException e) {
         return ProblemDetail
@@ -34,5 +33,4 @@ public class GlobalExceptionHandler {
                         errors
                 );
     }
-
 }

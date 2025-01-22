@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class CountryISO2Validator implements ConstraintValidator<CountryISO2Constraint, String> {
+    private final static String ISO2_REGEX = "^[A-Z]{2}$";
 
     @Override
     public void initialize(CountryISO2Constraint constraintAnnotation) {
@@ -16,7 +17,6 @@ public class CountryISO2Validator implements ConstraintValidator<CountryISO2Cons
         if (value == null) {
             return false;
         }
-        return value.matches("^[A-Z]{2}$");
+        return value.matches(ISO2_REGEX);
     }
-
 }

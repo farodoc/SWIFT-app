@@ -8,6 +8,7 @@ import com.swift.repository.BankBranchRepository;
 import com.swift.repository.BankHqRepository;
 import com.swift.util.BankMapper;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,7 +26,6 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class BankServiceTest {
-
     @Mock
     private BankHqRepository bankHqRepository;
 
@@ -301,5 +301,19 @@ public class BankServiceTest {
 
         // Then
         assertThrows(IllegalArgumentException.class, () -> integrationBankService.createBank(swiftCodeEntryRequest));
+    }
+
+    @Test
+    @Transactional
+    public void testDeleteBank_BankHq_ExpectSuccess_Integration() {
+        // Given
+        BankHq bankHq = TestConst.getBankHqs().getFirst();
+        String swiftCode = bankHq.getSwiftCode();
+
+        // When
+        integrationBankService.deleteBank(swiftCode);
+
+        // Then
+        assertTrue(integrationBankHqRepository.findBySwiftCode(swiftCode).isEmpty());
     }
 }

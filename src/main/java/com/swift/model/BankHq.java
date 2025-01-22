@@ -9,12 +9,11 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @Table(name = "bank_headquarters")
 @AllArgsConstructor
 @NoArgsConstructor
 public class BankHq {
-
     @Id
     @Column(name = "swift_code")
     private String swiftCode;
@@ -37,5 +36,4 @@ public class BankHq {
             orphanRemoval = true
     )
     private List<BankBranch> bankBranches = new ArrayList<>();
-
 }

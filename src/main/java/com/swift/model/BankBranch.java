@@ -6,12 +6,11 @@ import lombok.*;
 @Entity
 @Setter
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @Table(name = "bank_branches")
 @AllArgsConstructor
 @NoArgsConstructor
 public class BankBranch {
-
     @Id
     @Column(name = "swift_code")
     private String swiftCode;
@@ -30,5 +29,4 @@ public class BankBranch {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private BankHq bankHq;
-
 }

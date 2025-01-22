@@ -16,15 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.swift.config.Config.BANK_HQ_SUFFIX;
+import static com.swift.config.Config.BANK_SWIFT_CODE_PREFIX_LENGTH;
+
 @Service
 public class BankService {
-
     private final BankHqRepository bankHqRepository;
     private final BankBranchRepository bankBranchRepository;
     private final BankMapper bankMapper;
     private final EntityManager entityManager;
-    private final static String BANK_HQ_SUFFIX = "XXX";
-    private final static int BANK_SWIFT_CODE_PREFIX_LENGTH = 8;
 
     public BankService(BankHqRepository bankHqRepository, BankBranchRepository bankBranchRepository, BankMapper bankMapper, EntityManager entityManager) {
         this.bankHqRepository = bankHqRepository;
@@ -49,7 +49,15 @@ public class BankService {
         List<BankBranch> bankBranches = bankBranchRepository.findByCountryISO2(countryISO2);
         List<BankHq> bankHqs = bankHqRepository.findByCountryISO2(countryISO2);
 
-        String countryName = bankBranches.isEmpty() ? bankHqs.isEmpty() ? null : bankHqs.getFirst().getCountryName() : bankBranches.getFirst().getCountryName();
+        String countryName;
+
+        if (!bankBranches.isEmpty()) {
+            countryName = bankBranches.getFirst().getCountryName();
+        } else if (!bankHqs.isEmpty()) {
+            countryName = bankHqs.getFirst().getCountryName();
+        } else {
+            countryName = null;
+        }
 
         List<HqsBranchBank> swiftCodes = new ArrayList<>();
 
@@ -105,5 +113,4 @@ public class BankService {
             bankBranchRepository.deleteBySwiftCode(swiftCode);
         }
     }
-
 }

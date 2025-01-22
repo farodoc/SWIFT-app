@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 public class BankControllerTest {
-
     @Mock
     BankService bankService;
 
@@ -430,5 +429,4 @@ public class BankControllerTest {
 
         assertTrue(bankBranchRepository.findBySwiftCode(swiftCode).isEmpty());
     }
-
 }

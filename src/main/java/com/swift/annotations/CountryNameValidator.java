@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class CountryNameValidator implements ConstraintValidator<CountryNameConstraint, String> {
+    private final static String COUNTRY_NAME_PATTERN = "^[A-Za-z ]+$";
 
     @Override
     public void initialize(CountryNameConstraint constraintAnnotation) {
@@ -16,7 +17,6 @@ public class CountryNameValidator implements ConstraintValidator<CountryNameCons
         if (value == null) {
             return false;
         }
-        return value.matches("^[A-Za-z ]+$");
+        return value.matches(COUNTRY_NAME_PATTERN);
     }
-
 }

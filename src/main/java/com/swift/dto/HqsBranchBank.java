@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class HqsBranchBank {
-
     private String address;
     private String bankName;
     private String countryISO2;
@@ -26,5 +25,4 @@ public class HqsBranchBank {
         HqsBranchBank that = (HqsBranchBank) obj;
         return address.equals(that.address) && bankName.equals(that.bankName) && countryISO2.equals(that.countryISO2) && isHeadquarter.equals(that.isHeadquarter) && swiftCode.equals(that.swiftCode);
     }
-
 }

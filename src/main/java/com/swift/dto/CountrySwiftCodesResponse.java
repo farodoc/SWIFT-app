@@ -10,9 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class CountrySwiftCodesResponse {
-
     private String countryISO2;
     private String countryName;
     private List<HqsBranchBank> swiftCodes;
-
 }

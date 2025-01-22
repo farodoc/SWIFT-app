@@ -13,7 +13,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/v1/swift-codes")
 public class BankController {
-
     private final BankService bankService;
 
     public BankController(BankService bankService) {
@@ -23,7 +22,12 @@ public class BankController {
     @GetMapping("/{swiftCode}")
     public ResponseEntity<?> getBank(@PathVariable String swiftCode) {
         Optional<?> bank = bankService.getBank(swiftCode);
-        return bank.isPresent() ? ResponseEntity.ok(bank.get()) : ResponseEntity.notFound().build();
+
+        if (bank.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(bank.get());
     }
 
     @GetMapping("/country/{countryISO2}")
@@ -33,7 +37,12 @@ public class BankController {
             String countryISO2
     ) {
         CountrySwiftCodesResponse response = bankService.getBanksByCountry(countryISO2);
-        return !response.getSwiftCodes().isEmpty() ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+
+        if (response.getSwiftCodes().isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
@@ -47,5 +56,4 @@ public class BankController {
         bankService.deleteBank(swiftCode);
         return ResponseEntity.ok("Entry deleted");
     }
-
 }

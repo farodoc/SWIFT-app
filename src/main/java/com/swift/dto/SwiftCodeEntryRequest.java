@@ -15,7 +15,6 @@ import lombok.*;
 @SwiftCodeWithIsHeadquarterConstraint(groups = ValidationGroups.ClassChecks.class)
 @JsonDeserialize(using = SwiftCodeEntryRequestDeserializer.class)
 public class SwiftCodeEntryRequest {
-
     @AddressConstraint(groups = ValidationGroups.FieldChecks.class)
     private String address;
 
@@ -32,5 +31,4 @@ public class SwiftCodeEntryRequest {
 
     @SwiftCodeConstraint(groups = ValidationGroups.FieldChecks.class)
     private String swiftCode;
-
 }

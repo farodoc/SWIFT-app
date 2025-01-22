@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class AddressValidator implements ConstraintValidator<AddressConstraint, String> {
+    private final static String ADDRESS_PATTERN = "^[A-Za-z0-9 ,.]+$";
 
     @Override
     public void initialize(AddressConstraint constraintAnnotation) {
@@ -16,6 +17,6 @@ public class AddressValidator implements ConstraintValidator<AddressConstraint, 
         if (value == null) {
             return false;
         }
-        return value.matches("^[A-Za-z0-9 ,.]+$");
+        return value.matches(ADDRESS_PATTERN);
     }
 }
