@@ -4,7 +4,7 @@
 This is a simple app that allows you to search for SWIFT codes of banks. 
 It uses the prefetched data stored in a `data.xlsx` file.
 
-Codes ending with “XXX” represent a bank's headquarters, otherwise branch.
+Codes ending with “XXX” represent a banks' headquarters, otherwise branch.
 Branch codes are associated with a headquarters if their first 8 characters match.
 
 ### Endpoints
