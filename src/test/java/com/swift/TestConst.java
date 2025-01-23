@@ -2,9 +2,11 @@ package com.swift;
 
 import com.swift.model.BankBranch;
 import com.swift.model.BankHq;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
+@ActiveProfiles("dev")
 public class TestConst {
     private final static BankBranch BANK_BRANCH_1 = BankBranch.builder()
             .address("456 Main St")

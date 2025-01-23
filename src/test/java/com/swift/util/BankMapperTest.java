@@ -8,11 +8,13 @@ import com.swift.dto.SwiftCodeEntryRequest;
 import com.swift.model.BankBranch;
 import com.swift.model.BankHq;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("dev")
 public class BankMapperTest {
     private final BankMapper bankMapper = new BankMapper();
 
