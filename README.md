@@ -93,3 +93,13 @@ Branch codes are associated with a headquarters if their first 8 characters matc
 ```
 
 More in-depth endpoint documentation can be found in swagger-ui at `/swagger-ui/index.html#/`.
+
+### How to run
+
+```shell
+docker compose up
+```
+
+Application will be available at `http://localhost:8080/`.
+
+Database running on `http://localhost:5432/`.
